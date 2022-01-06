@@ -1,0 +1,29 @@
+#Treafik con una app django redis postgres y una app mas whoami
+version: "3.3"
+services:
+# Levantamos el servicio de Traefik
+ traefik:
+ image: "traefik:v2.3"
+ #container_name: "traefik"
+ command:
+ # Flags que definen el entripoint de la ejecución de traefik
+ #- "--log.level=DEBUG"
+ - "--api.insecure=true"
+ - "--providers.docker=true"
+ - "--providers.docker.exposedbydefault=false"
+ - "--entrypoints.web.address=:80"
+ ports:
+ - "80:80" # entri point
+ - "8080:8080" # nos muestra el dashboard de traefik
+ volumes:
+ # Compartiendo el socket de docker, traefik tiene la información para traer y mostrar los dashboards de docker
+ - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+ # Levantamos el servicio de whoami
+ whoami:
+ image: "traefik/whoami"
+ container_name: "simple-service"
+ labels:
+ - "traefik.enable=true"
+ - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+ - "traefik.http.routers.whoami.entrypoints=web"
