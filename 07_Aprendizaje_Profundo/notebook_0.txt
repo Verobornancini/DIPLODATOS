@@ -1,0 +1,9 @@
+Entorno de ejecución
+	cambiar tipo de entorno de ejecución
+		GPU
+
+!pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 -f https://download.pytorch.org/whl/torch_stable.html
+!pip install gensim mlflow tqdm
+
+
+Cuando vayan a usar GPU usen export CUDA_VISIBLE_DEVICES="X" donde X puede ser el id de una de las GPUs (0,1 o 2 si mal no recuerdo)
